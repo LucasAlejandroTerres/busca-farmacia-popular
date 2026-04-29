@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────
+# Keep Supabase Alive
+# Faz um ping leve na API do Supabase uma vez por semana.
+# Isso conta como "atividade de banco" e evita que o projeto
+# seja pausado automaticamente pelo plano gratuito.
+# ─────────────────────────────────────────────────────────────
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"   # Toda segunda-feira às 08:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/farmacias?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+
+          echo "Status HTTP: $STATUS"
+
+          if [ "$STATUS" -ne 200 ]; then
+            echo "❌ Supabase respondeu com status $STATUS"
+            exit 1
+          fi
+
+          echo "✅ Supabase está ativo e respondendo."

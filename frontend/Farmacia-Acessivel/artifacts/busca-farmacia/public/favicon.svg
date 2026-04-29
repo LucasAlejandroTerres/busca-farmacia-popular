@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g transform="rotate(-45 50 50)">
+    <!-- Metade amarela -->
+    <path d="M 25 30 h 50 a 20 20 0 0 1 0 40 h -50 a 20 20 0 0 1 0 -40 z" fill="#eab308" />
+    <!-- Metade verde -->
+    <path d="M 25 30 h 25 v 40 h -25 a 20 20 0 0 1 0 -40 z" fill="#16a34a" />
+    <line x1="50" y1="30" x2="50" y2="70" stroke="#ffffff" stroke-width="3"/>
+  </g>
+</svg>
